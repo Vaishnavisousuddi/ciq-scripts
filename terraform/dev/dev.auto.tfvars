@@ -125,3 +125,6 @@ create_oidc_provider     = true
 github_actions_role_name = "ciq-github-actions-terraform"
 github_org               = "Vaishnavisousuddi"
 github_repo              = "ciq-scripts"
+
+github_owner_id = "184361237"
+github_repo_id  = "1358707010"
