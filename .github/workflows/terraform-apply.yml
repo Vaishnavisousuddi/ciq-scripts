@@ -1,0 +1,43 @@
+name: Terraform Apply
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/dev/**'
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_WORKING_DIR: terraform/dev
+  AWS_REGION: us-west-2
+  AWS_ROLE_ARN: arn:aws:iam::804540873012:role/ciq-github-actions-terraform
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform apply -auto-approve
