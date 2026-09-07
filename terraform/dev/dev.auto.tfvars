@@ -117,7 +117,11 @@ worker_node_groups = {
     volume_type      = "gp3"
   }
 }
-eks_admin_principal_arns = []
+# eks_admin_principal_arns = []
+eks_admin_principal_arns = [
+  "arn:aws:iam::804540873012:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_AWSAdministratorAccess_8f72fcb330822dc3",
+  "arn:aws:iam::804540873012:role/ciq-github-actions-terraform",
+]
 
 state_bucket_name = "ciq-terraform-state-804540873012"
 lock_table_name          = "ciq-terraform-locks"
